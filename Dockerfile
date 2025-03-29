@@ -1,13 +1,15 @@
-FROM golang:1.21-alpine
+FROM golang:1.24.1-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY go.mod go.sum* ./
 
-RUN go mod init laliga-tracker
-RUN go mod tidy
+RUN go mod download
+
+COPY *.go ./
+
 RUN go build -o main .
 
-EXPOSE 8080
+EXPOSE 8081
 
 CMD ["./main"]
